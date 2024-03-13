@@ -75,6 +75,9 @@ public enum EventObject: Codable {
     case balance(Balance)
     case capability(Capability)
     case charge(Charge)
+	case customerSubscriptionCreated(Subscription)
+	case customerSubscriptionUpdated(Subscription)
+	case customerSubscriptionDeleted(Subscription)
     case dispute(Dispute)
     case refund(Refund)
     case checkoutSession(Session)
@@ -225,6 +228,12 @@ public enum EventObject: Codable {
             self = try .topup(TopUp(from: decoder))
         case "transfer":
             self = try .transfer(Transfer(from: decoder))
+		case "customer.subscription.created":
+			self = try .customerSubscriptionCreated(Subscription(from: decoder))
+		case "customer.subscription.updated":
+			self = try .customerSubscriptionUpdated(Subscription(from: decoder))
+		case "customer.subscription.deleted":
+			self = try .customerSubscriptionDeleted(Subscription(from: decoder))
         default:
             throw DecodingError.keyNotFound(CodingKeys.object,
                                             DecodingError.Context(codingPath: [CodingKeys.object],
